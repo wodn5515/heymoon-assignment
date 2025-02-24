@@ -57,7 +57,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "config.urls"
+ROOT_URLCONF = "config.urls.root"
 
 TEMPLATES = [
     {
@@ -131,6 +131,8 @@ SIMPLE_JWT = {
 }
 
 AUTH_USER_MODEL = "accounts.User"
+
+DEFAULT_PAGE_SIZE = 10
 
 
 # Internationalization
