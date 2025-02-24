@@ -46,8 +46,15 @@ class User(AbstractBaseUser, PermissionsMixin, TimeStampedModel):
     is_admin = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
+    is_identified = models.BooleanField(default=False)
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["name"]
 
     class Meta:
-        db_table = "users"
+        verbose_name = "사용자"
+        verbose_name_plural = "사용자 목록"
+        app_label = "accounts"
+        db_table = "accounts_users"
+
+    def __str__(self):
+        return self.email
