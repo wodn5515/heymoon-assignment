@@ -13,7 +13,7 @@ class AccountTestCase(TestCase):
         wrong_password = "wrongtestpassword"
 
         # 회원가입
-        path = "/users/signup"
+        path = "/api/users/signup"
         request_data = {
             "email": email,
             "name": name,
@@ -67,7 +67,7 @@ class AccountTestCase(TestCase):
         user.save()
 
         # 로그인
-        path = "/users/login"
+        path = "/api/users/login"
         request_data = {"email": email, "password": password}
         response = self.client.post(
             path=path, data=request_data, content_type="application/json"
@@ -111,7 +111,7 @@ class AccountTestCase(TestCase):
         refresh = RefreshToken.for_user(user)
 
         # refresh 토큰으로 access token 요청
-        path = "/users/refresh"
+        path = "/api/users/refresh"
         request_data = {"refresh": str(refresh)}
         response = self.client.post(
             path=path, data=request_data, content_type="application/json"
@@ -141,7 +141,7 @@ class AccountTestCase(TestCase):
         user.save()
 
         # 로그인
-        path = "/users/login"
+        path = "/api/users/login"
         request_data = {"email": email, "password": password}
         response = self.client.post(
             path=path, data=request_data, content_type="application/json"
@@ -149,7 +149,7 @@ class AccountTestCase(TestCase):
         refresh_token = response.data["token"]["refresh"]
 
         # 로그아웃
-        path = "/users/logout"
+        path = "/api/users/logout"
         self.client.login(email=email, password=password)
         request_data = {"refresh": refresh_token}
         response = self.client.post(
@@ -161,7 +161,7 @@ class AccountTestCase(TestCase):
         self.assertEqual(response.status_code, 204)
 
         # refresh token 무효화 검증을 위해 refresh 토큰으로 access token 요청
-        path = "/users/refresh"
+        path = "/api/users/refresh"
         request_data = {"refresh": refresh_token}
         response = self.client.post(
             path=path, data=request_data, content_type="application/json"
