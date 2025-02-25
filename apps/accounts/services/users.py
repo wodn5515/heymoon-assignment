@@ -22,7 +22,7 @@ class SignUpService(BaseService):
 
         return response_data
 
-    def _response_data_serializer(self, user=User) -> dict:
+    def _response_data_serializer(self, user: User) -> dict:
         data = {
             "id": user.pk,
             "name": user.name,
@@ -51,7 +51,7 @@ class LoginService:
         }
         return data
 
-    def _user_serializer(self, user=User) -> dict:
+    def _user_serializer(self, user: User) -> dict:
         data = {
             "id": user.pk,
             "name": user.name,
