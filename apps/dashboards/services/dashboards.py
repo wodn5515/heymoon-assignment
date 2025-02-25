@@ -6,6 +6,11 @@ from apps.orders.models import Order
 
 class LiveSalesService:
     def get_live_sales(self, data: DateRangeEntity):
+        queryset = self._get_queryset(data)
+        response_data = self._response_data_serializer(queryset)
+        return response_data
+
+    def _get_queryset(self, data: DateRangeEntity):
         # 1시간 단위로 데이터 집계
         sales_data = (
             Order.objects.filter(
@@ -34,9 +39,7 @@ class LiveSalesService:
             )
             .order_by("hour")
         )
-
-        response_data = self._response_data_serializer(sales_data)
-        return response_data
+        return sales_data
 
     def _response_data_serializer(self, queryset) -> dict:
         response_data = {
