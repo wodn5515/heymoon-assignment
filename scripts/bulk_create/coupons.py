@@ -9,7 +9,7 @@ from apps.products.models import Category, Product
 def generate_dummy_coupons(count=10):
     """쿠폰 더미데이터 생성"""
 
-    # 실제 데이터베이스에서 카테고리와 상품 목록 가져오기
+    # DB에서 카테고리와 상품 목록 가져오기
     categories = list(Category.objects.all())
     products = list(Product.objects.all())
 
@@ -41,7 +41,7 @@ def generate_dummy_coupons(count=10):
             name=f"{random.choice(coupon_names)} {i+1}",
             description=f"{discount_price}원 할인 쿠폰입니다.",
             discount_price=discount_price,
-            is_active=True,  # 75% 확률로 활성화
+            is_active=True,
             start_date=start_date,
             end_date=end_date,
             # 50% 확률로 카테고리 또는 상품 쿠폰으로 설정
@@ -80,15 +80,17 @@ def generate_dummy_user_coupons(coupons, count=50):
 
 
 # 실행 예시
-def create_coupons():
+def create_coupons(COUPON_COUNT, USER_COUPON_COUNT):
     print("=== 쿠폰 더미 데이터 생성 시작 ===")
     try:
         # 쿠폰 생성
-        created_coupons = generate_dummy_coupons(10)
+        created_coupons = generate_dummy_coupons(COUPON_COUNT)
         print(f"생성된 쿠폰 수: {len(created_coupons)}")
 
         # 사용자 쿠폰 생성
-        created_user_coupons = generate_dummy_user_coupons(created_coupons, 50)
+        created_user_coupons = generate_dummy_user_coupons(
+            created_coupons, USER_COUPON_COUNT
+        )
         print(f"생성된 사용자 쿠폰 수: {len(created_user_coupons)}")
     except Exception as e:
         print(f"데이터 생성 중 오류 발생: {str(e)}")

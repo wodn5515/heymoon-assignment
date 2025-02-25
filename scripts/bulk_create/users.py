@@ -1,5 +1,4 @@
 from django.db import transaction
-from django.utils import timezone
 from faker import Faker
 import random
 

@@ -1,15 +1,12 @@
 from faker import Faker
 import random
-import django
-import os
-import sys
 
 from django.utils import timezone
 from django.db import transaction
 from django.db.models import Sum
-from apps.accounts.models import User, PhoneIdentification
+from apps.accounts.models import User
 from apps.orders.models import OrderAddress, OrderReceiver, Order, OrderItem
-from apps.products.models import Product, ProductOption
+from apps.products.models import Product
 from apps.coupons.models import Coupon, UserCoupon
 from django.db.models.functions import Coalesce
 

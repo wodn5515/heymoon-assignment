@@ -1,5 +1,3 @@
-import os
-import django
 import random
 from faker import Faker
 
@@ -10,16 +8,12 @@ from apps.products.models import (
     ProductDetail,
     Category,
 )
-from django.core.files.uploadedfile import SimpleUploadedFile
 
 
 fake = Faker("ko_KR")
 
-NUM_PRODUCTS = 20  # 생성할 상품 수
-NUM_SERIES = 5  # 생성할 시리즈 수
 
-
-def create_products(num_products=NUM_PRODUCTS, num_series=NUM_SERIES):
+def create_products(num_products, num_series):
     """상품 더미 데이터 생성"""
     print("=== 상품 더미 데이터 생성 시작 ===")
     # 시리즈 생성
