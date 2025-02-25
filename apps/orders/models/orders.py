@@ -63,6 +63,7 @@ class Order(TimeStampedModel):
     total_price = models.IntegerField()
     payment_method = models.CharField(max_length=20)
     payment_date = models.DateTimeField(null=True)
+    is_first_purchase = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "주문"
