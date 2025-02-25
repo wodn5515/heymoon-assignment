@@ -1,5 +1,5 @@
 from apps.dashboards.validations.dashboards import DateRangeEntity
-from django.db.models import Count, Sum, Case, When, Value
+from django.db.models import Count, Sum, Case, When, Value, F
 from django.db.models.functions import TruncHour
 from apps.orders.models import Order
 
@@ -55,5 +55,51 @@ class LiveSalesService:
             "coupon_amount": object["coupon_amount"] or 0,
             "first_purchase_count": object["first_purchase_count"] or 0,
             "first_purchase_amount": object["first_purchase_amount"] or 0,
+        }
+        return data
+
+
+class SalesChartService:
+    def get_sales_chart(self, data: DateRangeEntity):
+        queryset = self._get_queryset(data)
+        response_data = self._response_data_serializer(queryset)
+        return response_data
+
+    def _get_queryset(self, data: DateRangeEntity):
+        sales_data = (
+            Order.objects.filter(
+                payment_date__gte=data.start_date,
+                payment_date__lte=data.end_date,
+                status__in=["PAID", "SHIPPING", "COMPLETED"],  # 결제 완료된 주문만
+            )
+            .annotate(hour=TruncHour("payment_date"))
+            .values("items__product__name")
+            .annotate(
+                product_name=F("items__product__name"),
+                quantity=Sum("items__quantity"),  # 판매수량
+                total_amount=Sum(
+                    F("items__quantity")
+                    * (
+                        F("items__product__price")
+                        + F("items__product_option__additional_price")
+                    )
+                ),  # 판매금액
+            )
+            .values("product_name", "quantity", "total_amount")
+            .order_by("-quantity")
+        )[:10]
+        return sales_data
+
+    def _response_data_serializer(self, queryset) -> dict:
+        response_data = {
+            "results": [self._object_serializer(object) for object in queryset]
+        }
+        return response_data
+
+    def _object_serializer(self, object) -> dict:
+        data = {
+            "product_name": object["product_name"] or "",
+            "total_amount": object["total_amount"] or 0,
+            "quantity": object["quantity"] or 0,
         }
         return data
