@@ -65,7 +65,7 @@ class Product(TimeStampedModel):
 class ProductOption(TimeStampedModel):
     product = models.ForeignKey(
         "products.Product",
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name="options",
     )
     name = models.CharField(max_length=100)
@@ -85,7 +85,7 @@ class ProductOption(TimeStampedModel):
 class ProductImage(TimeStampedModel):
     product = models.ForeignKey(
         "products.Product",
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name="images",
     )
     thumbnail = models.ImageField(
@@ -117,7 +117,7 @@ class ProductImage(TimeStampedModel):
 class ProductDetail(TimeStampedModel):
     product = models.OneToOneField(
         "products.Product",
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name="detail",
     )
     description = models.TextField(null=True)
@@ -135,7 +135,7 @@ class ProductDetail(TimeStampedModel):
 class ProductDetailImage(TimeStampedModel):
     product_detail = models.ForeignKey(
         "products.ProductDetail",
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name="images",
     )
     original = models.ImageField(
