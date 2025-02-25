@@ -5,6 +5,6 @@ from apps.dashboards.views.dashboards import (
 )
 
 urlpatterns = [
-    path("live-sales", LiveSalesAPIView.as_view(), name="live-sales"),
-    path("sales-chart", SalesChartAPIView.as_view(), name="sales-chart"),
+    path("dashboards/live-sales", LiveSalesAPIView.as_view(), name="live-sales"),
+    path("dashboards/sales-chart", SalesChartAPIView.as_view(), name="sales-chart"),
 ]
