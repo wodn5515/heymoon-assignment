@@ -4,7 +4,6 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
 from apps.dashboards.validations.dashboards import DateRangeEntity
 from apps.dashboards.validations import exceptions
 from apps.dashboards.validations import exception_data
@@ -29,6 +28,10 @@ class LiveSalesAPIView(APIView):
         # validate
         try:
             data = DateRangeEntity(**request_data)
+        except exceptions.DateRangeNotValid:
+            raise response_exceptions.BadRequest(
+                **exception_data.HTTP_400_INVALID_DATE_RANGE
+            )
         except ValidationError:
             raise response_exceptions.BadRequest(
                 **common_exception_data.HTTP_400_INPUT_VALIDATION_ERROR
@@ -59,11 +62,14 @@ class SalesChartAPIView(APIView):
         # validate
         try:
             data = DateRangeEntity(**request_data)
+        except exceptions.DateRangeNotValid:
+            raise response_exceptions.BadRequest(
+                **exception_data.HTTP_400_INVALID_DATE_RANGE
+            )
         except ValidationError:
             raise response_exceptions.BadRequest(
                 **common_exception_data.HTTP_400_INPUT_VALIDATION_ERROR
             )
-
         # service
         try:
             sales_chart_service = SalesChartService()
