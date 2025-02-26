@@ -30,6 +30,10 @@
 
     $ docker compose -f docker-compose.yml up --build
 
+### API 테스트용 admin 유저 생성
+
+    $ python manage.py creastesuperuser
+
 # 📒 API 명세
 
 - [유저 API](#user)
