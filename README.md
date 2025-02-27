@@ -263,12 +263,14 @@ end-date: "str(datetime)"
   ```json
   {
     "results": [
-      "datetime": "str(datetime)",
-      "total_amount": 0,
-      "customer_count": 0,
-      "coupon_amount": 0,
-      "first_purchase_count": 0,
-      "first_purchase_amount": 0
+      {
+        "datetime": "str(datetime)",
+        "total_amount": 0,
+        "customer_count": 0,
+        "coupon_amount": 0,
+        "first_purchase_count": 0,
+        "first_purchase_amount": 0
+      }
     ]
   }
   ```
